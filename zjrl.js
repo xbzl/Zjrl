@@ -17,10 +17,10 @@
 
 [rewrite_local]
 # 1. 订阅接口（解决重新登录时生效）：
-^https?:\/\/api.rc-backup.com\/v1\/subscribers\/identify url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/zjrl.js
+^https?:\/\/api.rc-backup.com\/v1\/subscribers\/identify url script-response-body https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
 
 # 2. App 用户状态接口（解决退出App后失效）：
-^https?:\/\/api\.thinkofuture\.com\/v1\/(user|me|profile|info)\/(.*)?$ url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/zjrl.js
+^https?:\/\/api\.thinkofuture\.com\/v1\/(user|me|profile|info)\/(.*)?$ url script-response-body https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
 
 [mitm]
 # 必须同时包含 RevenueCat 和 App 主服务器域名
