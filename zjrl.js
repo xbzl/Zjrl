@@ -17,11 +17,11 @@
 
 [rewrite_local]
 # 1. 订阅接口（保持不变，解决重新登录时生效）：
-^https?:\/\/api.rc-backup.com\/v1\/subscribers\/identify url script-response-body 
+^https?:\/\/api.rc-backup.com\/v1\/subscribers\/identify url script-response-body https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
 
 # 2. 【最终修正】 App 用户状态接口：扩大拦截范围，解决退出后失效。
 # 拦截所有 v1 下的 API，提高命中率。
-^https?:\/\/api\.thinkofuture\.com\/v1\/.* url script-response-body 
+^https?:\/\/api\.thinkofuture\.com\/v1\/.* url script-response-body https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
 
 [mitm]
 # 必须同时包含 RevenueCat 和 App 主服务器域名
