@@ -1,32 +1,26 @@
-let url = $request.url;
-if (url.includes("api.rc-backup.com/v1/subscribers")) {
-    try {
-        let data = JSON.parse($response.body);
-        if (data && data.subscriber) {
-            let now = new Date().toISOString().split('.')[0] + "Z";
-            data.subscriber.subscriptions = {
-                "com.byronyeung.cuckoo.Annual": {
-                    "original_purchase_date": now,
-                    "purchase_date": now,
-                    "expires_date": "2999-09-09T09:09:09Z",
-                    "is_sandbox": false,
-                    "ownership_type": "PURCHASED",
-                    "product_identifier": "com.byronyeung.cuckoo.Annual",
-                    "store": "app_store"
-                }
-            };
-            data.subscriber.entitlements = {
-                "Pro": {
-                    "product_identifier": "com.byronyeung.cuckoo.Annual",
-                    "purchase_date": now,
-                    "expires_date": "2999-09-09T09:09:09Z"
-                }
-            };
-            $done({body: JSON.stringify(data)});
-            return;
-        }
-    } catch (e) {
-        console.log("zjrl_fix.js error:", e);
+// zjrl_req_fix.js  -- request-side: 去掉 If-None-Match / If-Modified-Since / If-Range
+(function () {
+  const url = $request.url || "";
+  if (!url.includes("api.rc-backup.com/v1/subscribers")) {
+    $done({});
+    return;
+  }
+
+  // 复制 headers 并过滤缓存相关头
+  let headers = $request.headers || {};
+  const blacklist = ["if-none-match","if-modified-since","if-range","if-match","if-unmodified-since"];
+  let newHeaders = {};
+  Object.keys(headers).forEach(k=>{
+    if (blacklist.indexOf(k.toLowerCase()) === -1) {
+      newHeaders[k] = headers[k];
     }
-}
-$done();
+  });
+
+  // 也可加入一个 cache-buster 查询参数（可选），但删除缓存头通常足够
+  // 如果你想加 cache-buster，取消下面注释：
+  // let u = new URL(url);
+  // u.searchParams.set("_cb", String(Date.now()));
+  // $done({ url: u.toString(), headers: newHeaders });
+
+  $done({ headers: newHeaders });
+})();
