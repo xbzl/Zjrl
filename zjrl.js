@@ -26,7 +26,6 @@ if (url.includes("api.rc-backup.com/v1/subscribers")) {
             return;
         }
     } catch (e) {
-        // 如果解析失败，返回原始响应
         console.log("zjrl_fix.js error:", e);
     }
 }
