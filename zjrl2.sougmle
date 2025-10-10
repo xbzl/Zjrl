@@ -1,0 +1,9 @@
+#!name= 追剧日历解锁
+#!desc= 去除缓存头
+#!author= Bailan
+
+[Script]
+zjrl Pro = type=http-response,pattern=^https?:\/\/api\.rc-backup\.com\/v1\/subscribers\/.*$,script-path=https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
+
+[MITM]
+hostname = %APPEND% api.rc-backup.com
