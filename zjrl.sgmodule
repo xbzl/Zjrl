@@ -3,7 +3,8 @@
 #!author= Bailan
 
 [Script]
-zjrl Pro = type=http-response,pattern=^https?:\\/\\/(api\\.rc-backup\\.com\\/v1\\/subscribers\\/[^/]+|ap-guangzhou\\.cls\\.tencentcs\\.com\\/tracklog),script-path=https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
+zjrl Pro = type=http-response,pattern=^https://api\.rc-backup\.com/v1/subscribers/.*,script-path=https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
+zjrl Pro = type=http-response,pattern=^https://ap-guangzhou\.cls\.tencentcs\.com/tracklog.*,script-path=https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
 
 [MITM]
 hostname = %APPEND% api.rc-backup.com, ap-guangzhou.cls.tencentcs.com
