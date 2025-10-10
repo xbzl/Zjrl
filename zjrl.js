@@ -1,26 +1,45 @@
-// zjrl_req_fix.js  -- request-side: 去掉 If-None-Match / If-Modified-Since / If-Range
-(function () {
-  const url = $request.url || "";
-  if (!url.includes("api.rc-backup.com/v1/subscribers")) {
-    $done({});
-    return;
-  }
+let url = $request.url;
 
-  // 复制 headers 并过滤缓存相关头
-  let headers = $request.headers || {};
-  const blacklist = ["if-none-match","if-modified-since","if-range","if-match","if-unmodified-since"];
-  let newHeaders = {};
-  Object.keys(headers).forEach(k=>{
-    if (blacklist.indexOf(k.toLowerCase()) === -1) {
-      newHeaders[k] = headers[k];
+if (/^https:\\/\\/api\\.rc-backup\\.com\\/v1\\/subscribers\\/[^/]+$/.test(url)) {
+  const now = new Date().toISOString();
+  const expires = \"2999-09-09T09:09:09Z\";
+  const prod = \"com.byronyeung.cuckoo.Annual\";
+
+  const subscriber = {
+    original_app_user_id: \"zjrl_vip_user\",
+    first_seen: now,
+    subscriptions: {
+      [prod]: {
+        purchase_date: now,
+        original_purchase_date: now,
+        expires_date: expires,
+        store: \"app_store\",
+        product_identifier: prod,
+        billing_issues_detected_at: null,
+        unsubscribe_detected_at: null,
+        period_type: \"normal\"
+      }
+    },
+    entitlements: {
+      all_features: {
+        product_identifier: prod,
+        purchase_date: now,
+        original_purchase_date: now,
+        expires_date: expires
+      }
     }
-  });
+  };
 
-  // 也可加入一个 cache-buster 查询参数（可选），但删除缓存头通常足够
-  // 如果你想加 cache-buster，取消下面注释：
-  // let u = new URL(url);
-  // u.searchParams.set("_cb", String(Date.now()));
-  // $done({ url: u.toString(), headers: newHeaders });
+  const response = {
+    request_date_ms: Date.now(),
+    subscriber
+  };
 
-  $done({ headers: newHeaders });
-})();
+  $done({ body: JSON.stringify(response) });
+
+} else if (/^https:\\/\\/ap-guangzhou\\.cls\\.tencentcs\\.com\\/tracklog/.test(url)) {
+  $done({ body: \"{}\" });
+
+} else {
+  $done({});
+}
