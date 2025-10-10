@@ -1,10 +1,9 @@
 #!name= 追剧日历解锁
-#!desc= 解锁pro
+#!desc= 解锁 追剧日历 Pro 订阅功能
 #!author= Bailan
 
 [Script]
-zjrl Pro = type=http-response,pattern=^https://api\.rc-backup\.com/v1/subscribers/.*,requires-body=1,script-path=https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
-
+zjrl Pro = type=http-response,pattern=^https?:\/\/api\.rc-backup\.com\/v1\/subscribers\/.*$,requires-body=1,script-path=https://raw.githubusercontent.com/xbzl/Zjrl/refs/heads/main/zjrl.js
 
 [MITM]
 hostname = %APPEND% api.rc-backup.com
